@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "CORS proxy",
   "dependencies": {
-    "request": "2.88.0"
+    "phin": "3.4.0"
   }
 }
