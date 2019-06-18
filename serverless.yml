@@ -1,6 +1,7 @@
 service: cors-proxy
 
 provider:
+  profile: cheddarup
   name: aws
   runtime: nodejs8.10
   timeout: 60
