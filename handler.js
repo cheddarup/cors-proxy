@@ -2,7 +2,6 @@ const p = require("phin");
 
 module.exports.corsProxy = async (event, context) => {
   let params = event.queryStringParameters;
-  console.log(`Got request:`, event);
 
   if (!params.url) {
     return {
@@ -18,7 +17,6 @@ module.exports.corsProxy = async (event, context) => {
       data: event.body ? JSON.parse(event.body) : null,
       timeout: 20000
     });
-    console.log("Response:", res.body, res.statusCode, res.headers);
     const response = {
       statusCode: res.statusCode,
       headers: {
@@ -29,10 +27,9 @@ module.exports.corsProxy = async (event, context) => {
       body: res.body.toString('base64'),
       isBase64Encoded: true
     };
-    console.log("Returning: ", response);
     return response;
   } catch (err) {
-    console.log(`Got error`, err);
+    console.log(`Got error`, event, params, err);
     return {
       statusCode: 400,
       body: err.msg
