@@ -18,15 +18,18 @@ module.exports.corsProxy = async (event, context) => {
       data: event.body ? JSON.parse(event.body) : null,
       timeout: 20000
     });
+    console.log("Response:", res.body, res.statusCode, res.headers);
     const response = {
       statusCode: res.statusCode,
       headers: {
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-        "content-type": res.headers["content-type"]
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        ...res.headers
       },
-      body: res.body
+      body: res.body.toString('base64'),
+      isBase64Encoded: true
     };
+    console.log("Returning: ", response);
     return response;
   } catch (err) {
     console.log(`Got error`, err);
@@ -35,4 +38,4 @@ module.exports.corsProxy = async (event, context) => {
       body: err.msg
     };
   }
-}
+};
